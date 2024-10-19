@@ -1,0 +1,7 @@
+{
+  "name": "TiendaLRVAApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
