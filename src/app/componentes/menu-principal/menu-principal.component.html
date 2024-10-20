@@ -1,0 +1,18 @@
+<ion-menu contentId="main-content" menuId="menuPrincipal">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Tienda LRVA</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-menu-toggle auto-hide="false" *ngFor="let pagina of paginas; let i = index">
+        <ion-item (click)="cambiarindice(i)" routerDirection="root" [routerLink] = "[pagina.url]" 
+                  lines="none" detail="false" [class.selected] = "indiceSeleccionado == i">
+                  <ion-icon slot="start" [name]="pagina.icono"></ion-icon>
+                  <ion-label>{{pagina.titulo}}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>

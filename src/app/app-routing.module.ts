@@ -9,7 +9,35 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
+  },
+  {
+    path: 'principal',
+    loadChildren: () => import('./Pages/principal/principal.module').then( m => m.PrincipalPageModule)
+  },
+  {
+    path: 'usuario',
+    loadChildren: () => import('./Pages/usuario/usuario.module').then( m => m.UsuarioPageModule)
+  },
+  {
+    path: 'cliente',
+    loadChildren: () => import('./Pages/cliente/cliente.module').then( m => m.ClientePageModule)
+  },
+  {
+    path: 'cliente/listado',
+    loadChildren: () => import('./Pages/cliente/cliente.module').then( m => m.ClientePageModule)
+  },
+  {
+    path: 'categoria',
+    loadChildren: () => import('./Pages/categoria/categoria.module').then( m => m.CategoriaPageModule)
+  },
+  {
+    path: 'producto',
+    loadChildren: () => import('./Pages/producto/producto.module').then( m => m.ProductoPageModule)
+  },
+  {
+    path: 'promotor',
+    loadChildren: () => import('./Pages/promotor/promotor.module').then( m => m.PromotorPageModule)
   },
 ];
 

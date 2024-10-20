@@ -1,11 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -14,7 +6,23 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-title>Tienda virtual</ion-title>
+
+    <ion-item class="txtinputlogin">
+      <ion-input labelPlacement="stacked" label="Correo" [(ngModel)]="emailtxt" fill="solid"  placeholder="email@domain.com" autofocus="true">
+        <ion-icon slot="start" name="people" aria-hidden="true"></ion-icon>
+      </ion-input>
+    </ion-item>
+
+    <ion-item class="txtinputlogin">
+      <ion-input labelPlacement="stacked" label="Contaseña" [(ngModel)]="passwordtxt" fill="solid" placeholder="*******">
+        <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
+        <ion-button fill="clear" slot="end" aria-label="Show/hide">
+          <ion-icon slot="icon-only" name="eye" aria-hidden="true"></ion-icon>
+        </ion-button>
+      </ion-input>
+    </ion-item>
+    <ion-button expand="full" id="btnlogin" (click)="loginfunction()">Entrar</ion-button>
+    
   </div>
 </ion-content>
