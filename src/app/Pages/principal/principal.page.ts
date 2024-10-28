@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-principal',
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./principal.page.scss'],
 })
 export class PrincipalPage implements OnInit {
+  public apitokenuser?:string = "";
 
-  constructor() { }
+  constructor(public navCtrl: NavController) {
+  }
 
   ngOnInit() {
   }

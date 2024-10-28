@@ -7,10 +7,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Producto</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+
+<h3>Listado de clientes</h3>
+<!-- <ion-searchbar animated="true" placeholder="Buscar Cliente" (ionInput)="buscarcliente($event)"></ion-searchbar> -->
+
+<ion-button size="small" style="float: right;" (click)="setOpen(true)">
+  <ion-icon slot="start" name="add-outline"></ion-icon>
+  Agregar
+</ion-button>
+
+<ion-list *ngFor="let c of productoModel">
+  <ion-item>
+    <ion-avatar slot="start">
+        <ion-thumbnail item-start>
+          <img [src]="c.img" onerror="this.src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg';" alt="No abilitado">
+        </ion-thumbnail>
+      </ion-avatar>
+    <ion-label>
+      <h2>{{ c.nombre}}</h2>
+      <ion-button (click)="setOpenEdit(true,c)">
+        <ion-icon name="build-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteclient(c.id,c.nombre)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-label>
+  </ion-item>

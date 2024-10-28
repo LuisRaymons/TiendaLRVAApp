@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { exitOutline,peopleOutline } from 'ionicons/icons';
 
@@ -11,7 +11,7 @@ import { exitOutline,peopleOutline } from 'ionicons/icons';
 export class MenuPrincipalComponent  implements OnInit {
   indiceSeleccionado: number = 0;
 
-  constructor(private menuCtrl: MenuController) { 
+  constructor(private menuCtrl: MenuController, public navCtrl: NavController) { 
     addIcons({exitOutline, peopleOutline});
   }
 
@@ -48,10 +48,16 @@ export class MenuPrincipalComponent  implements OnInit {
       url:'/promotor',
       icono:'walk-outline'
     },
+    {
+      titulo:'Perfil',
+      url:'/perfil',
+      icono:'people-circle-outline'
+    }
   ];
 
   async cerraSession(){
-    console.log("Cerrando session");
+    localStorage.removeItem("api_token");
+    this.navCtrl.navigateForward('/');
   }
 
   cambiarindice(i:number){

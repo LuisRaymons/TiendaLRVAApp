@@ -15,21 +15,33 @@
   </ion-header>
 
   <h3>Listado de clientes</h3>
+  <ion-searchbar animated="true" placeholder="Buscar Cliente" (ionInput)="buscarcliente($event)"></ion-searchbar>
+ 
   <ion-button size="small" style="float: right;" (click)="setOpen(true)">
     <ion-icon slot="start" name="add-outline"></ion-icon>
     Agregar
   </ion-button>
+  
   <ion-list *ngFor="let c of clientesModel">
-    <ion-card>
-      <img alt="Silhouette of mountains" [src]="c.img" alt="No se encontro la imagen" width="60%" height="60%" style="margin-left: 20%;"/>
-      <ion-card-header>
-        <ion-card-title>{{c.nombre}}</ion-card-title>
-        <ion-card-subtitle>{{c.telefono}}</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
+    <ion-item>
+      <ion-avatar slot="start">
+          <ion-thumbnail item-start>
+            <img [src]="c.img" onerror="this.src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg';" alt="No abilitado">
+          </ion-thumbnail>
+        </ion-avatar>
+      <ion-label>
+        <h2>{{ c.nombre + " " + c.apellidos }}</h2>
+        <h3>{{ c.telefono }}</h3>
+        <ion-button (click)="setOpenEdit(true,c)">
+          <ion-icon name="build-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteclient(c.id,c.nombre,c.apellidos)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-label>
+    </ion-item>
 
-
-
+    <!--Modal nuevo cliente-->
     <ion-modal [isOpen]="isModalOpen">
       <ng-template>
         <ion-header>
@@ -44,10 +56,16 @@
         </ion-header>
         <ion-content class="ion-padding">
           
-          <ion-input label="Nombre´s" [(ngModel)]="nametxt" label-placement="floating" fill="solid" placeholder="Nombre´s" required></ion-input><br/>
-          <ion-input label="Apellidos" [(ngModel)]="lastnametxt" label-placement="floating" fill="solid" placeholder="Apellidos" required></ion-input><br/>
-          <ion-input label="Telefono" type="tel" [(ngModel)]="phonetxt" label-placement="floating" fill="solid" placeholder="Telefono" required></ion-input><br/>
-          <ion-input label="Direccion" [(ngModel)]="adresstxt" label-placement="floating" fill="solid" placeholder="Direccion" required></ion-input><br/>
+          <ion-input label="(*) Nombre´s" [(ngModel)]="nametxt" label-placement="floating" fill="solid" placeholder="Nombre´s" required></ion-input><br/>
+          <ion-input label="(*) Apellidos" [(ngModel)]="lastnametxt" label-placement="floating" fill="solid" placeholder="Apellidos" required></ion-input><br/>
+          <ion-input label="(*) Telefono" type="tel" [(ngModel)]="phonetxt" label-placement="floating" fill="solid" placeholder="Telefono" required></ion-input><br/>
+          <ion-input label="(*) Direccion" [(ngModel)]="adresstxt" label-placement="floating" fill="solid" placeholder="Direccion" required></ion-input><br/>
+          <ion-button color="danger" style="margin-bottom: 1%;" (click)="tomarfoto()">
+            <ion-icon name="camera-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="warning" style="margin-bottom: 1%;" (click)="seleccionarfoto()">
+            <ion-icon name="document-attach-outline"></ion-icon>
+          </ion-button>
           <ion-input label="Codigo Postal" [(ngModel)]="cptxt" type="number" label-placement="floating" fill="solid" placeholder="Codigo Postal" (change)="buscarcolonia()"></ion-input><br/>
           <ion-select label="Colonia" [(ngModel)]="coloniasSelect" label-placement="floating" fill="solid"><br/>
             <ion-select-option value="">Seleccione una opcion</ion-select-option>
@@ -55,7 +73,7 @@
               <ion-select-option [value]="cp.colonia">{{cp.colonia}}</ion-select-option>
             </ion-list>
           </ion-select>
-          <p>*</p>
+          
           <ion-input label="Estado" [(ngModel)]="estadoclientetxt" label-placement="floating" fill="solid" placeholder="Estado" disabled="true"></ion-input><br/>
           <ion-input label="Municipio Postal" [(ngModel)]="municipioclientetxt" label-placement="floating" fill="solid" placeholder="Municipio" disabled="true"></ion-input><br/>
 
@@ -72,8 +90,55 @@
       </ng-template>
     </ion-modal>
 
-
+    <!--Modal editar cliente-->
+    <ion-modal #modalCtrl [isOpen]="isModalOpenEdit">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Editar Cliente</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="setOpenEdit(false)">
+                <ion-icon name="close-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-input label="(*) Nombre´s" [(ngModel)]="nametxtEdit" label-placement="floating" fill="solid" placeholder="Nombre´s" required></ion-input><br/>
+          <ion-input label="(*) Apellidos" [(ngModel)]="lastnametxtEdit" label-placement="floating" fill="solid" placeholder="Apellidos" required></ion-input><br/>
+          <ion-input label="(*) Telefono" type="tel" [(ngModel)]="phonetxtEdit" label-placement="floating" fill="solid" placeholder="Telefono" required></ion-input><br/>
+          <ion-input label="(*) Direccion" [(ngModel)]="adresstxtEdit" label-placement="floating" fill="solid" placeholder="Direccion" required></ion-input><br/>
+          <ion-button color="danger" style="margin-bottom: 1%;" (click)="tomarfoto()">
+            <ion-icon name="camera-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="warning" style="margin-bottom: 1%;" (click)="seleccionarfoto()">
+            <ion-icon name="document-attach-outline"></ion-icon>
+          </ion-button>
+          <ion-avatar>
+            <ion-thumbnail>
+              <img [src]="imgEditsrc" onerror="this.src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg';" alt="No abilitado">
+            </ion-thumbnail>
+          </ion-avatar>
+          <ion-input label="Codigo Postal" [(ngModel)]="cptxtEdit" type="number" label-placement="floating" fill="solid" placeholder="Codigo Postal" (change)="buscarcolonia()"></ion-input><br/>
+          <ion-select label="Colonia" [(ngModel)]="coloniasSelectEdit" [selectedText] = "selectitemedit" label-placement="floating" fill="solid"><br/>
+            <ion-select-option value="">Seleccione una opcion</ion-select-option>
+            <ion-select-option *ngFor="let cp of coloniasSelectoption">{{cp.colonia}}</ion-select-option>
+          </ion-select>
+          <ion-input label="Estado" [(ngModel)]="estadoclientetxtEdit" label-placement="floating" fill="solid" placeholder="Estado" disabled="true"></ion-input><br/>
+          <ion-input label="Municipio Postal" [(ngModel)]="municipioclientetxtEdit" label-placement="floating" fill="solid" placeholder="Municipio" disabled="true"></ion-input><br/>
+          <ion-button size="large" style="width: 49%; margin-top: 2%;" (click)="updatecliente()">
+            Guardar
+            <ion-icon slot="end" name="save-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="large" style="width: 49%; margin-top: 2%;" (click)="setOpenEdit(false)">
+            Cancelar
+            <ion-icon name="reload-outline"></ion-icon>
+          </ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
   </ion-list>
+  
   
 
 </ion-content>

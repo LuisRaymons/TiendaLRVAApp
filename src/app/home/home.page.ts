@@ -26,9 +26,11 @@ export class HomePage {
         const nombre = data.data.name;
         const tipouser = data.data.type;
         const tokenuser = data.data.api_token;
+        const iduser = data.data.id;
   
         if(nombre != null && tipouser != null && tokenuser != null){
           localStorage.setItem("api_token",tokenuser);
+          localStorage.setItem("iduser",iduser.toString());
           this.navCtrl.navigateForward('/principal');
         } else{
           const alert = await this.alertController.create({

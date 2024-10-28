@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="menuPrincipal"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<div class="container">
+  <ion-label>{{nameuser}}</ion-label>
+  <img [src]="imguser" 
+       onerror="this.src='https://i.pinimg.com/736x/8b/16/7a/8b167af653c2399dd93b952a48740620.jpg';" 
+       style="margin: auto; width: 40px; height: 90px;"
+       alt="No abilitado">
+  <ion-label>{{correouser}}</ion-label>
+</div>
+

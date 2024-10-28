@@ -1,25 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResolveEnd } from '@angular/router';
-import { CodigoPostalResponde } from 'src/app/interfaces/ayuda/CodigoPostalResponde';
 import { RespondeGeneral } from 'src/app/interfaces/ayuda/RespondeGeneral';
-import { ClienteResponse } from 'src/app/interfaces/cliente/ClienteResponse';
+import { ProductoResponde } from 'src/app/interfaces/producto/ProductoResponde';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClienteService {
+export class ProductoService {
   private apiurl:string = "https://lrvatienda.xyz/api/";
 
   constructor(public http:HttpClient) { }
 
-  obtenerclientes(){
+  obtenerproductos(){
     let postData = {
       "api_token":localStorage.getItem('api_token')
     }
     
-    return new Promise<ClienteResponse>(resolve =>{
-      this.http.post<ClienteResponse>(this.apiurl + "cliente/get/all", postData).subscribe((data:ClienteResponse) => {
+    return new Promise<ProductoResponde>(resolve =>{
+      this.http.post<ProductoResponde>(this.apiurl + "producto/get/all", postData).subscribe((data:ProductoResponde) => {
         resolve(data);
       }, err =>{
         console.log("erro en la peticion");
@@ -27,9 +26,9 @@ export class ClienteService {
       });
     });
   }
-  agregarcliente(datospost:FormData){
+  agregarproducto(datospost:FormData){
     return new Promise<RespondeGeneral>(resolve =>{
-      this.http.post<RespondeGeneral>(this.apiurl + "cliente/add",datospost).subscribe((data:RespondeGeneral) => {
+      this.http.post<RespondeGeneral>(this.apiurl + "producto/add",datospost).subscribe((data:RespondeGeneral) => {
         console.log(data);
         resolve(data);
       }, err =>{
@@ -40,9 +39,9 @@ export class ClienteService {
     });
     
   }
-  editarcliente(datospost:FormData){
+  editarproducto(datospost:FormData){
     return new Promise<RespondeGeneral>(resolve =>{
-      this.http.post<RespondeGeneral>(this.apiurl + "cliente/update",datospost).subscribe((data:RespondeGeneral) => {
+      this.http.post<RespondeGeneral>(this.apiurl + "producto/update",datospost).subscribe((data:RespondeGeneral) => {
         console.log(data);
         resolve(data);
       }, err =>{
@@ -53,9 +52,9 @@ export class ClienteService {
     });
     
   }
-  deleteclient(datos:FormData){
+  deleteproducto(datos:FormData){
     return new Promise<RespondeGeneral>(resolve =>{
-      this.http.post<RespondeGeneral>(this.apiurl + "cliente/delete",datos).subscribe((data:RespondeGeneral) => {
+      this.http.post<RespondeGeneral>(this.apiurl + "producto/delete",datos).subscribe((data:RespondeGeneral) => {
         console.log(data);
         resolve(data);
       }, err =>{
@@ -63,21 +62,6 @@ export class ClienteService {
         console.log(err);
       });
       
-    });
-  }
-
-  obtenercolonia(cp:string){
-    let postData = {
-      "CP":cp
-    }
-    
-    return new Promise<CodigoPostalResponde>(resolve =>{
-      this.http.post<CodigoPostalResponde>(this.apiurl + "codigo/postal", postData).subscribe((data:CodigoPostalResponde) => {
-        resolve(data);
-      }, err =>{
-        console.log("erro en la peticion");
-        console.log(err);
-      });
     });
   }
 }

@@ -12,6 +12,13 @@
                   <ion-icon slot="start" [name]="pagina.icono"></ion-icon>
                   <ion-label>{{pagina.titulo}}</ion-label>
         </ion-item>
+        
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="false">
+        <ion-item routerDirection="root" lines="none" detail="false" (click)="cerraSession()" id="cerrarsesionbtn">
+          <ion-icon slot="start" name="exit-outline"></ion-icon>
+          <ion-label>Cerrar Session</ion-label>
+        </ion-item>
       </ion-menu-toggle>
     </ion-list>
   </ion-content>
